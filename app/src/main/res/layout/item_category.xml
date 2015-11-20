@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/category_itemwidth"
+    android:layout_height="@dimen/category_itemheight">
+
+    <ImageView
+        android:id="@+id/categoryimage"
+        android:layout_width="@dimen/category_imagewidth"
+        android:layout_height="@dimen/category_imagewidth"
+        android:layout_marginTop="@dimen/category_itmemargintop"
+        android:scaleType="centerInside"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/category_selector"/>
+
+    <TextView
+        android:id="@+id/categoryname"
+        android:layout_width="@dimen/category_imagewidth"
+        android:layout_height="@dimen/category_nameheight"
+        android:layout_below="@id/categoryimage"
+        android:padding="2dp"
+        android:singleLine="true"
+        android:gravity="center|top"
+        android:textSize="@dimen/normal"
+        android:textColor="@color/primaryText"
+        android:text="基础材料"
+        />
+
+
+</RelativeLayout>

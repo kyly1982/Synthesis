@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/categoryitem_pressed"></solid>
+    <size
+        android:width="@dimen/category_imagewidth"
+        android:height="@dimen/category_imagewidth"></size>
+    <corners android:radius="@dimen/category_imageradius"></corners>
+    <stroke android:width="1px" android:color="@color/white"></stroke>
+</shape>

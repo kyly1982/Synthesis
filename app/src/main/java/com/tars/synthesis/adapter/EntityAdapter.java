@@ -24,7 +24,7 @@ public class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.ViewHolder
     private ImageLoader mLoader;
 
     public interface OnItemClickListener {
-        void OnItemClick(int entityId);
+        void OnItemClick(Entity entity);
     }
 
     public EntityAdapter(@NonNull Context context) {
@@ -54,9 +54,9 @@ public class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.ViewHolder
         if (null != entity.getImgPath() && 10 < entity.getImgPath().length()) {
             mLoader.displayImage(entity.getImgPath(), holder.entityImage);
         }
-        holder.entityName.setText(entity.getViewName());
-        holder.entityDesc.setText(null != entity.getShortDesc() ? entity.getShortDesc() : entity.getDetailDesc());
-        holder.item.setTag(entity.getId());
+        holder.entityName.setText(entity.getViewName()+"");
+        holder.entityDesc.setText(entity.getShortDesc()+"");
+        holder.item.setTag(entity);
         holder.item.setOnClickListener(this);
     }
 
@@ -82,9 +82,9 @@ public class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.ViewHolder
 
     @Override
     public void onClick(View v) {
-        int id = (int) v.getTag();
-        if (0 < id && null != mListener) {
-            mListener.OnItemClick(id);
+        Entity entity = (Entity) v.getTag();
+        if (null != entity && null != mListener) {
+            mListener.OnItemClick(entity);
         }
     }
 }

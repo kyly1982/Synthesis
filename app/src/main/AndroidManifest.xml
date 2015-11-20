@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tars.synthesis" >
+    package="com.tars.synthesis">
 
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!--suppress DeprecatedClassUsageInspection -->
+    <!-- suppress DeprecatedClassUsageInspection -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
@@ -26,8 +26,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar" >
-        <activity android:name=".activity.MainActivity" >
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,20 +36,14 @@
         </activity>
         <activity
             android:name=".activity.EntityActivity"
-            android:parentActivityName=".activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tars.synthesis.activity.MainActivity" />
         </activity>
-        <activity
-            android:name=".activity.SynthesisActivity"
-            android:parentActivityName=".activity.EntityActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tars.synthesis.activity.EntityActivity" />
-        </activity>
-        <activity android:name=".activity.AboutActivity" >
-        </activity>
+        <activity android:name=".activity.SynthesisActivity"></activity>
+        <activity android:name=".activity.AboutActivity"></activity>
+
     </application>
 
 </manifest>

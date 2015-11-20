@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     tools:context="com.tars.synthesis.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -26,22 +28,45 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/apptitle"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignTop="@id/app_bar"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/thirdText"
+        android:textColor="@color/colorAccentText"
         android:textSize="@dimen/title"
         android:gravity="center"
         android:text="标题"/>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/apptitle"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        app:errorEnabled="true"
+        android:visibility="gone"
+        app:hintAnimationEnabled="true"
+        android:background="@color/colorAccent">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_bar"
+            android:background="@color/white"
+            android:lines="1"
+            android:imeOptions="actionSearch"
+            android:hint="输入物品名称来搜索"
+            android:singleLine="true"/>
+    </android.support.design.widget.TextInputLayout>
+
     <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/app_bar"
-        android:background="@color/listbackground">
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_below="@id/search"
+        android:background="@color/listbackground"
+        android:layout_alignParentBottom="true">
 
     </com.marshalchen.ultimaterecyclerview.UltimateRecyclerView>
 

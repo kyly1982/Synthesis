@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tars.synthesis.activity.AboutActivity"
-    android:background="@mipmap/background_aboutus">
+    android:background="@mipmap/background_aboutus"
+    tools:context="com.tars.synthesis.activity.AboutActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@null"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -19,8 +20,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            android:background="@null"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -30,65 +31,92 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_alignTop="@id/app_bar"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/thirdText"
-        android:textSize="@dimen/title"
         android:gravity="center"
-        android:text="关于我们"/>
+        android:text="关于我们"
+        android:textColor="@color/colorAccentText"
+        android:textSize="@dimen/title" />
 
-
-    <ImageView
-        android:id="@+id/about_ic"
+    <RelativeLayout
+        android:id="@+id/softinfo_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@mipmap/ic_about"/>
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/about_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_about" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/about_ic"
+            android:layout_alignRight="@id/about_ic"
+            android:layout_below="@id/about_ic"
+            android:text="@string/about_content"
+            android:textColor="@color/colorAccentText"
+            android:textSize="@dimen/normal" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_below="@id/app_bar"
+        android:layout_above="@id/softinfo_layout"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/about_ic">
+        >
 
+
+        <ImageView
+            android:id="@+id/ic_about"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"
+            android:visibility="visible"/>
         <TextView
             android:id="@+id/softname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ic_about"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_centerVertical="true"
+            android:text="@string/app_name"
+            android:textColor="@color/colorAccentText"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/title"
-            android:textColor="@color/thirdText"
-            android:text="名称"
-            />
-
-        <ImageView
-            android:id="@+id/ic_about"
-            android:layout_width="@dimen/ic_width"
-            android:layout_height="0dp"
-            android:background="@color/colorAccent"
-            android:layout_alignTop="@id/softname"
-            android:layout_alignBottom="@id/softname"
-            android:layout_toLeftOf="@id/softname"
-            />
+            android:textSize="@dimen/title" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_alignTop="@id/softname"
             android:layout_alignBottom="@id/softname"
+            android:layout_alignTop="@id/softname"
             android:layout_toRightOf="@id/softname"
             android:gravity="bottom"
-            android:textColor="@color/thirdText"
-            android:textSize="@dimen/hint"
             android:singleLine="true"
-            android:text="1.0.1"/>
+            android:text="1.0.1"
+            android:textColor="@color/colorAccentText"
+            android:textSize="@dimen/hint" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/softinfo_layout"
+        android:layout_alignParentBottom="true"
+        >
+        <Button
+            android:id="@+id/checkUpgrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/btn_upgrade" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/about_ic"
-        android:background="@mipmap/btn_upgrade"
-        android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 
 
 

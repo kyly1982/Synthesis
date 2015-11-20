@@ -2,16 +2,18 @@ package com.tars.synthesis.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.tars.synthesis.R;
+import com.tars.synthesis.bean.Entity;
+
+import java.util.Scanner;
 
 public class SynthesisActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener{
 
@@ -35,27 +37,33 @@ public class SynthesisActivity extends BaseActivity implements Toolbar.OnMenuIte
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mWeb = (WebView) findViewById(R.id.web);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         mToolbar.setOnMenuItemClickListener(this);
-
-        WebSettings webSettings = mWeb.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webSettings.setSupportMultipleWindows(true);
-        mWeb.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mWeb.setWebViewClient(new WebViewClient(){
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url)
-            {
-                // TODO Auto-generated method stub
-                // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
-                view.loadUrl(url);
-                return true;
+            public void onClick(View v) {
+                SynthesisActivity.this.finish();
             }
         });
+
+            WebSettings webSettings = mWeb.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            webSettings.setDomStorageEnabled(true);
+            webSettings.setUseWideViewPort(true);
+            webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+            webSettings.setSupportMultipleWindows(true);
+            mWeb.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+            mWeb.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // TODO Auto-generated method stub
+                    // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
     }
 
     @Override
@@ -68,10 +76,12 @@ public class SynthesisActivity extends BaseActivity implements Toolbar.OnMenuIte
     }
 
     private void showData(){
-        int id = getIntent().getIntExtra("ENTITY_ID",0);
-        if (0 < id){
-            String url = getString(R.string.interface_entity) + id;
+        Entity entity = (Entity)getIntent().getSerializableExtra("ENTITY");
+        if (null != entity){
+            String url = getString(R.string.interface_entity) + entity.getId();
             mWeb.loadUrl(url);
+        } else {
+            Snackbar.make(mWeb,"参数错误，请重试！",Snackbar.LENGTH_LONG).show();
         }
     }
 }

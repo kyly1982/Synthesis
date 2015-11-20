@@ -17,11 +17,11 @@
         android:layout_width="@dimen/category_imagewidth"
         android:layout_height="@dimen/category_nameheight"
         android:layout_below="@id/categoryimage"
-        android:padding="2dp"
+        android:padding="3dp"
         android:singleLine="true"
         android:gravity="center|top"
         android:textSize="@dimen/normal"
-        android:textColor="@color/primaryText"
+        android:textColor="@color/colorPrimaryText"
         android:text="基础材料"
         />
 

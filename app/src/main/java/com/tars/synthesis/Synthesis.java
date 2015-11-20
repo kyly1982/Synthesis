@@ -21,11 +21,13 @@ public class Synthesis extends Application {
     private final int IMAGE_POOL_SIZE = 3;// 线程池数量
     private final int CONNECT_TIME = 15 * 1000;// 连接时间
     private final int TIME_OUT = 30 * 1000;// 超时时间
+    public static Synthesis instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
         init();
+        instance = this;
     }
 
     /**
@@ -61,6 +63,9 @@ public class Synthesis extends Application {
         return getCacheRoot() + File.separator + getString(R.string.imagecache_dir) + File.separator;
     }
 
+    public String getJsonCacheFile(){
+        return  getCacheRoot()+"/json/jsoncache.dat";
+    }
 
     private String getCacheRoot() {
         String mCacheDir = null;

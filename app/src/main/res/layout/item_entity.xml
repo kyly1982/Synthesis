@@ -31,8 +31,7 @@
             android:layout_toRightOf="@id/entityimage"
             android:singleLine="true"
             android:textSize="@dimen/name"
-            android:textColor="@color/primaryText"
-            android:text="实体标题"
+            android:textColor="@color/colorPrimaryText"
             />
 
         <TextView
@@ -45,9 +44,7 @@
             android:gravity="center_vertical"
             android:maxLines="3"
             android:ellipsize="end"
-            android:textSize="@dimen/normal"
-            android:textColor="@color/primaryText"
-            android:text="实体描述信息"/>
+            android:textSize="@dimen/normal"/>
 
 
 

@@ -11,7 +11,7 @@
     <dimen name="name">16sp</dimen>
     <dimen name="normal">12sp</dimen>
     <dimen name="hint">12sp</dimen>
-    
+
     <!--category-->
     <dimen name="category_itmemargintop">8dp</dimen>
     <dimen name="category_itemwidth">102dp</dimen>
@@ -31,4 +31,5 @@
     <!--about-->
     <dimen name="ic_width">20dp</dimen>
     <dimen name="ic_heigth">20dp</dimen>
+    <dimen name="item_width">200dp</dimen>
 </resources>

@@ -1,12 +1,16 @@
 <resources>
-    <string name="app_name">Synthesis</string>
-    <string name="about">关于</string>
+    <string name="app_name">MC合成表</string>
 
     <string name="imagecache_dir">image</string>
 
     <string name="interface_domain">http://api.mckuai.com/</string>
     <string name="interface_getentitylist">interface.do?act=composed</string>
+    <string name="interface_search">interface.do?act=composeSearch</string>
     <string name="interface_entity">http://api.mckuai.com/compose/</string>
+
+
+    <string name="about">关于</string>
+    <string name="about_content">《MC合成表》是麦块精心为广大玩家朋友打造的《我的世界》(英文名：Minecraft)合成查询工具。是麦块为广大玩家朋友打造最方便、最好用的游戏助手系列产品之一，欢迎大家下载使用。</string>
 
     <!-- 更新-->
     <string name="download_failure">下载新版本失败 !</string>

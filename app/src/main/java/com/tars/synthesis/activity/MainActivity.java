@@ -1,11 +1,20 @@
 package com.tars.synthesis.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.tars.synthesis.R;
@@ -14,11 +23,16 @@ import com.tars.synthesis.bean.Category;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity implements CategoryAdapter.OnItemClickListener,Toolbar.OnMenuItemClickListener{
+public class MainActivity extends BaseActivity implements CategoryAdapter.OnItemClickListener,Toolbar.OnMenuItemClickListener,TextView.OnEditorActionListener,View.OnFocusChangeListener{
     private Toolbar mToolbar;
     private UltimateRecyclerView mList;
+    private TextInputLayout mSearchLayout;
+    private EditText mSearch;
+    private TextView mTitle;
+
     private ArrayList<Category> mCategories;
     private CategoryAdapter mAdapter;
+
 
 
 
@@ -37,14 +51,22 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
 
     private void initView() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mList = (UltimateRecyclerView) findViewById(R.id.list);
+        mSearchLayout = (TextInputLayout) findViewById(R.id.search);
+        mSearch = mSearchLayout.getEditText();
+        mTitle = (TextView) findViewById(R.id.title);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
-        mList = (UltimateRecyclerView) findViewById(R.id.list);
         RecyclerView.LayoutManager manager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        mToolbar.setOnMenuItemClickListener(this);
+
         mList.setLayoutManager(manager);
         mList.disableLoadmore();
         mList.enableDefaultSwipeRefresh(false);
-        mToolbar.setOnMenuItemClickListener(this);
+        mSearchLayout.setVisibility(View.VISIBLE);
+        mSearch.setOnEditorActionListener(this);
+        mSearch.setOnFocusChangeListener(this);
     }
 
     public void showData(){
@@ -75,12 +97,23 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
         }
     }
 
+    private void showEntityList(String categoryName,String entityName){
+        onFocusChange(mSearch,false);
+        Intent intent = new Intent(this,EntityActivity.class);
+        if (null != categoryName){
+            intent.putExtra("CATEGORY",categoryName);
+        } else if (null != entityName){
+            intent.putExtra("ENTIVITY", entityName);
+        }
+        startActivity(intent);
+    }
+
     @Override
     public void OnItemClick(int position) {
         Category category = mCategories.get(position);
-        Intent intent = new Intent(this,EntityActivity.class);
-        intent.putExtra("CATEGORY",category.getName());
-        startActivity(intent);
+        if (null != category){
+            showEntityList(category.getName(),null);
+        }
     }
 
     @Override
@@ -90,5 +123,29 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
             startActivity(intent);
         }
         return false;
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH ){
+            if (null != v.getText() && 0 < v.getText().toString().length()){
+                showEntityList(null,v.getText().toString().trim());
+            } else {
+                mSearchLayout.setError("请输入要搜索的物品名称！");
+                mSearch.setText("");
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mSearchLayout.setHint("点击键盘上的搜索来搜索");
+        if (hasFocus){
+            imm.showSoftInput(mSearch,InputMethodManager.SHOW_FORCED);
+        } else {
+            imm.hideSoftInputFromWindow(mSearch.getWindowToken(),0);
+        }
     }
 }

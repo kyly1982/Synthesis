@@ -57,4 +57,8 @@ public class Page {
             return page+1;
         }
     }
+
+    public boolean EOP(){
+        return  page ==  getNextPage();
+    }
 }

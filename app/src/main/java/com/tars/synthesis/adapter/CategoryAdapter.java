@@ -52,7 +52,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         assert null != category;
         Drawable drawable =mContext.getResources().getDrawable(category.getImageId());
         holder.CategoryImage.setImageDrawable(drawable);
-//        holder.CategoryImage.setImageResource(category.getImageId());
         holder.CategoryName.setText(category.getName());
         holder.item.setTag(position);
         holder.item.setOnClickListener(this);

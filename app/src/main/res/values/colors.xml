@@ -12,4 +12,5 @@
     <color name="entity_fram">#DDDCDE</color>
     <color name="listbackground">#EDEDF0</color>
     <color name="categoryitem_pressed">#EDD9A5</color>
+    <color name="red">#FF0000</color>
 </resources>

@@ -9,16 +9,16 @@
     <dimen name="title">20sp</dimen>
     <dimen name="big">18sp</dimen>
     <dimen name="name">16sp</dimen>
-    <dimen name="normal">14sp</dimen>
+    <dimen name="normal">12sp</dimen>
     <dimen name="hint">12sp</dimen>
 
     <!--category-->
     <dimen name="category_itmemargintop">8dp</dimen>
     <dimen name="category_itemwidth">102dp</dimen>
-    <dimen name="category_itemheight">151.5dp</dimen>
+    <dimen name="category_itemheight">140dp</dimen>
     <dimen name="category_imagewidth">102dp</dimen>
     <dimen name="category_imageradius">51dp</dimen>
-    <dimen name="category_nameheight">41.5dp</dimen>
+    <dimen name="category_nameheight">30dp</dimen>
 
     <!--item-->
     <dimen name="entity_itemmargintop">9.5dp</dimen>

@@ -10,6 +10,15 @@ import android.widget.Button;
 import com.tars.synthesis.R;
 import com.tars.synthesis.utils.AutoUpgrade.AppUpdate;
 import com.tars.synthesis.utils.AutoUpgrade.AppUpdateService;
+import com.tars.synthesis.utils.AutoUpgrade.ResponseParser;
+import com.tars.synthesis.utils.AutoUpgrade.Version;
+import com.tars.synthesis.utils.AutoUpgrade.internal.SimpleJSONParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.net.URLEncoder;
 
 public class AboutActivity extends BaseActivity {
     private Toolbar mToolbar;
@@ -38,12 +47,38 @@ public class AboutActivity extends BaseActivity {
         findViewById(R.id.checkUpgrade).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkUpdate();
+                checkUpgrade();
             }
         });
     }
 
-    private void checkUpdate(){
+    private void checkUpgrade() {
+        AppUpdate updateService = AppUpdateService.getAppUpdate(this);
+        String url = getString(R.string.interface_domain) + getString(R.string.interface_checkupgread);
+        url = url + "&pushMan=" + URLEncoder.encode(getString(R.string.channel));
+        updateService.checkLatestVersionQuiet(url, new MyJsonParser());
+    }
 
+    static class MyJsonParser extends SimpleJSONParser implements ResponseParser {
+        @Override
+        public Version parser(String response) {
+            try {
+                JSONTokener jsonParser = new JSONTokener(response);
+                JSONObject json = (JSONObject) jsonParser.nextValue();
+                Version version = null;
+                if (json.has("state") && json.has("dataObject")) {
+                    JSONObject dataField = json.getJSONObject("dataObject");
+                    int code = dataField.getInt("code");
+                    String name = dataField.getString("name");
+                    String feature = dataField.getString("feature");
+                    String targetUrl = dataField.getString("targetUrl");
+                    version = new Version(code, name, feature, targetUrl);
+                }
+                return version;
+            } catch (JSONException exp) {
+                exp.printStackTrace();
+                return null;
+            }
+        }
     }
 }

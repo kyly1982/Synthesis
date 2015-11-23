@@ -1,123 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background_aboutus"
+    android:fitsSystemWindows="true"
     tools:context="com.tars.synthesis.activity.AboutActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@null"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay_About">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@null"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay_About">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/apptitle"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/title"
+                android:textStyle="bold"
+                android:text="关于我们"/>
+
+        </android.support.v7.widget.Toolbar>
+
+
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignTop="@id/app_bar"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="关于我们"
-        android:textColor="@color/colorAccentText"
-        android:textSize="@dimen/title" />
 
-    <RelativeLayout
-        android:id="@+id/softinfo_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
-
-        <ImageView
-            android:id="@+id/about_ic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_about" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/about_ic"
-            android:layout_alignRight="@id/about_ic"
-            android:layout_below="@id/about_ic"
-            android:text="@string/about_content"
-            android:textColor="@color/colorAccentText"
-            android:textSize="@dimen/normal" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_below="@id/app_bar"
-        android:layout_above="@id/softinfo_layout"
-        android:layout_centerHorizontal="true"
-        >
-
-
-        <ImageView
-            android:id="@+id/ic_about"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher"
-            android:visibility="visible"/>
-        <TextView
-            android:id="@+id/softname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/ic_about"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_centerVertical="true"
-            android:text="@string/app_name"
-            android:textColor="@color/colorAccentText"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/title" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_alignBottom="@id/softname"
-            android:layout_alignTop="@id/softname"
-            android:layout_toRightOf="@id/softname"
-            android:gravity="bottom"
-            android:singleLine="true"
-            android:text="1.0.1"
-            android:textColor="@color/colorAccentText"
-            android:textSize="@dimen/hint" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/softinfo_layout"
-        android:layout_alignParentBottom="true"
-        >
-        <Button
-            android:id="@+id/checkUpgrade"
+        android:layout_height="match_parent"
+        android:background="@mipmap/background_aboutus"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:id="@+id/softinfo_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@mipmap/btn_upgrade" />
+            android:layout_centerInParent="true">
 
+            <ImageView
+                android:id="@+id/about_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_about" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/about_ic"
+                android:layout_alignRight="@id/about_ic"
+                android:layout_below="@id/about_ic"
+                android:text="@string/about_content"
+                android:textColor="@color/colorAccentText"
+                android:textSize="@dimen/normal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/softinfo_layout"
+            android:layout_centerHorizontal="true">
+
+
+            <ImageView
+                android:id="@+id/ic_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/softname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/ic_about"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/app_name"
+                android:textColor="@color/colorAccentText"
+                android:textSize="@dimen/title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_alignBottom="@id/softname"
+                android:layout_alignTop="@id/softname"
+                android:layout_toRightOf="@id/softname"
+                android:gravity="bottom"
+                android:singleLine="true"
+                android:text="1.0.1"
+                android:textColor="@color/colorAccentText"
+                android:textSize="@dimen/hint" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/softinfo_layout">
+
+            <Button
+                android:id="@+id/checkUpgrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/btn_upgrade" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
 
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

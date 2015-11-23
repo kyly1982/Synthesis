@@ -6,9 +6,9 @@
 
 
     <RelativeLayout
+        android:id="@+id/entitycontent"
         android:layout_width="match_parent"
         android:layout_height="@dimen/entity_itemcontentheigth"
-        android:layout_marginTop="@dimen/entity_itemmargintop"
         android:layout_alignParentBottom="true"
         android:background="@drawable/entityitem">
 
@@ -16,12 +16,12 @@
             android:id="@+id/entityimage"
             android:layout_width="@dimen/entity_imagewidth"
             android:layout_height="@dimen/entity_imagewidth"
-            android:scaleType="centerInside"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:src="@mipmap/entity_default"/>
+            android:scaleType="centerInside"
+            android:src="@mipmap/entity_default" />
 
         <TextView
             android:id="@+id/entityname"
@@ -30,9 +30,8 @@
             android:layout_alignTop="@id/entityimage"
             android:layout_toRightOf="@id/entityimage"
             android:singleLine="true"
-            android:textSize="@dimen/name"
             android:textColor="@color/colorPrimaryText"
-            />
+            android:textSize="@dimen/name" />
 
         <TextView
             android:id="@+id/entitydesc"
@@ -41,16 +40,19 @@
             android:layout_alignBottom="@id/entityimage"
             android:layout_alignLeft="@id/entityname"
             android:layout_below="@id/entityname"
+            android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="3"
-            android:ellipsize="end"
-            android:textSize="@dimen/normal"/>
-
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/normal" />
 
 
     </RelativeLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/entity_itemmargintop"
+        android:background="@color/listbackground"></View>
 
 
 </RelativeLayout>

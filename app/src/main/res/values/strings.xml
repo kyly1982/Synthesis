@@ -2,11 +2,13 @@
     <string name="app_name">MC合成表</string>
 
     <string name="imagecache_dir">image</string>
+    <string name="channel">MCSynthesis</string>
 
     <string name="interface_domain">http://api.mckuai.com/</string>
     <string name="interface_getentitylist">interface.do?act=composed</string>
     <string name="interface_search">interface.do?act=composeSearch</string>
     <string name="interface_entity">http://api.mckuai.com/compose/</string>
+    <string name="interface_checkupgread">interface.do?act=androidUpdate</string>
 
 
     <string name="about">关于</string>

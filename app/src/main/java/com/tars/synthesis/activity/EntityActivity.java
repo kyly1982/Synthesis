@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -37,7 +38,9 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
     private EntityAdapter mAdapter;
     private AsyncHttpClient mClient;
     private Page mPage;
-    private String mCategory;
+    private int mType;
+    private String mCategoryName;
+    private String mEntityName;
     private String mUrl;
     private Gson mGson;
     private JsonCache mCache;
@@ -46,7 +49,7 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        mCategory = getIntent().getStringExtra("CATEGORY");
+        getParameters();
         initView();
         mClient = new AsyncHttpClient();
         mGson = new Gson();
@@ -65,6 +68,24 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
         mCache.saveCacheFile();
     }
 
+    private void getParameters(){
+        Intent intent = getIntent();
+        mType = intent.getIntExtra("TYPE", 2);
+        switch (mType){
+            case 0:
+                mCategoryName = getIntent().getStringExtra("CATEGORY");
+                mEntityName = null;
+                break;
+            case 1:
+                mCategoryName = null;
+                mEntityName = getIntent().getStringExtra("ENTIVITY");
+                break;
+            default:
+                this.finish();
+                break;
+        }
+    }
+
     private void initView() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.apptitle);
@@ -80,7 +101,7 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
                 EntityActivity.this.finish();
             }
         });
-        mTitle.setText(mCategory);
+        mTitle.setText(mCategoryName);
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mList.setLayoutManager(manager);
@@ -108,16 +129,30 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
     private void loadData() {
 
 
-        if (null == mUrl) {
-            mUrl = getString(R.string.interface_domain) + getString(R.string.interface_getentitylist);
-        }
 
         final RequestParams params = new RequestParams();
-        if (null == mPage) {
-            mPage = new Page();
+
+        switch (mType){
+            case 0:
+                if (null == mPage) {
+                    mPage = new Page();
+                }
+                if (null == mUrl) {
+                    mUrl = getString(R.string.interface_domain) + getString(R.string.interface_getentitylist);
+                }
+                params.put("kinds", mCategoryName);
+                break;
+            case 1:
+                if (null == mUrl){
+                    mUrl = getString(R.string.interface_domain) + getString(R.string.interface_search);
+                }
+                params.put("cName", mEntityName);
+                break;
+            default:
+                break;
         }
-        params.put("page", mPage.getNextPage());
-        params.put("kinds", mCategory);
+
+
 
         mClient.get(mUrl, params, new JsonHttpResponseHandler() {
             @Override
@@ -143,6 +178,7 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
                     }
                 }
                 if (parseData(mUrl,params,data)){
+                    showData();
                     return;
                 }
                 //处理返回数据不正确
@@ -159,6 +195,9 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
     }
 
     private boolean parseData(String url,RequestParams params,String data){
+        if (1 == mType){
+            return parseSearchData(data);
+        }
         EntityList list = mGson.fromJson(data, EntityList.class);
         if (null != list) {
             mPage.setPage(list.getPage());
@@ -175,10 +214,18 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
                 }
             }
             mEntities.addAll(list.getData());
-            showData();
             return true;
         }
         return false;
+    }
+
+    private boolean parseSearchData(String data){
+        ArrayList<Entity> entities = mGson.fromJson(data,new TypeToken<ArrayList<Entity>>(){}.getType());
+        if (null != entities && !entities.isEmpty()){
+            this.mEntities = entities;
+            return true;
+        }
+        return  false;
     }
 
     private void cacheData(String url,RequestParams params,String data){

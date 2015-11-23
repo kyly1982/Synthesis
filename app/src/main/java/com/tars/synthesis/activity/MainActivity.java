@@ -2,7 +2,6 @@ package com.tars.synthesis.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -19,7 +18,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
-import com.tars.synthesis.BuildConfig;
 import com.tars.synthesis.R;
 import com.tars.synthesis.adapter.CategoryAdapter;
 import com.tars.synthesis.bean.Category;
@@ -71,7 +69,7 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
         mList.setLayoutManager(manager);
         mList.disableLoadmore();
         mList.enableDefaultSwipeRefresh(false);
-//        mSearchLayout.setVisibility(View.VISIBLE);
+        mSearchLayout.setVisibility(View.VISIBLE);
         mSearch.setOnEditorActionListener(this);
         mSearch.setOnFocusChangeListener(this);
     }
@@ -92,7 +90,7 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
 
     private void getData() {
         mCategories = new ArrayList<>(9);
-        String[] name = {"基础材料", "食物配方", "酿造配方", "建筑方块配方", "工具配方", "武器配方", "材料配方", "杂项配方", "装饰方块配方"};
+        String[] name = {"基础材料", "食物配方", "酿造配方", "建筑配方", "工具配方", "武器配方", "材料配方", "杂项配方", "装饰配方"};
         int[] image = {R.mipmap.material_base, R.mipmap.formula_foods, R.mipmap.formula_brewing,
                 R.mipmap.formula_cons, R.mipmap.formula_tool, R.mipmap.formula_weapon,
                 R.mipmap.formula_material, R.mipmap.formula_other, R.mipmap.formula_decorate};
@@ -108,9 +106,12 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
         onFocusChange(mSearch, false);
         Intent intent = new Intent(this, EntityActivity.class);
         if (null != categoryName) {
+            intent.putExtra("TYPE", 0);
             intent.putExtra("CATEGORY", categoryName);
         } else if (null != entityName) {
+            mSearch.setText("");
             intent.putExtra("ENTIVITY", entityName);
+            intent.putExtra("TYPE",1);
         }
         startActivity(intent);
     }
@@ -158,7 +159,7 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
 
     @Override
     public boolean onBackKeyPressed() {
-        Snackbar.make(mList,"是否退出？",Snackbar.LENGTH_LONG).setAction("退出", new View.OnClickListener() {
+        Snackbar.make(mList, "是否退出？", Snackbar.LENGTH_LONG).setAction("退出", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.this.finish();

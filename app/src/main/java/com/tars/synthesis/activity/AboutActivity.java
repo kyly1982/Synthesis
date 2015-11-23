@@ -22,15 +22,28 @@ import java.net.URLEncoder;
 
 public class AboutActivity extends BaseActivity {
     private Toolbar mToolbar;
-    private ActionBar mActionBar;
-    private Button mButton;
-    private AppUpdateService mUpdate;
+//    private ActionBar mActionBar;
+//    private Button mButton;
+    private AppUpdate mUpdateService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        mUpdateService = AppUpdateService.getAppUpdate(this);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mUpdateService.callOnResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mUpdateService.callOnPause();
     }
 
     private void initView(){
@@ -53,10 +66,9 @@ public class AboutActivity extends BaseActivity {
     }
 
     private void checkUpgrade() {
-        AppUpdate updateService = AppUpdateService.getAppUpdate(this);
         String url = getString(R.string.interface_domain) + getString(R.string.interface_checkupgread);
         url = url + "&pushMan=" + URLEncoder.encode(getString(R.string.channel));
-        updateService.checkLatestVersionQuiet(url, new MyJsonParser());
+        mUpdateService.checkLatestVersionQuiet(url, new MyJsonParser());
     }
 
     static class MyJsonParser extends SimpleJSONParser implements ResponseParser {

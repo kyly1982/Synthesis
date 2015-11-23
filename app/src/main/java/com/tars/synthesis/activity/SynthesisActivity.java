@@ -9,6 +9,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.tars.synthesis.R;
 import com.tars.synthesis.bean.Entity;
@@ -78,6 +79,8 @@ public class SynthesisActivity extends BaseActivity implements Toolbar.OnMenuIte
     private void showData(){
         Entity entity = (Entity)getIntent().getSerializableExtra("ENTITY");
         if (null != entity){
+//            String url = "http://192.168.99.247/MineCraftCDN/app-composed.html";
+            Toast.makeText(this,"ID="+entity.getId(),Toast.LENGTH_LONG).show();
             String url = getString(R.string.interface_entity) + entity.getId();
             mWeb.loadUrl(url);
         } else {

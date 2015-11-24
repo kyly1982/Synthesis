@@ -15,26 +15,29 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@mipmap/background_menu"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/apptitle"
+                android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                android:background="@mipmap/background_menu"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                android:layout_alignTop="@id/app_bar"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="标题"
+                android:textColor="@color/colorAccentText"
+                android:textSize="@dimen/title" />
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignTop="@id/app_bar"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/colorAccentText"
-        android:textSize="@dimen/title"
-        android:gravity="center"
-        android:text="标题"/>
 
     <WebView
         android:id="@+id/web"

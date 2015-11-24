@@ -9,10 +9,12 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tars.synthesis.R;
 import com.tars.synthesis.bean.Entity;
+import com.umeng.message.PushAgent;
 
 import java.util.Scanner;
 
@@ -20,12 +22,14 @@ public class SynthesisActivity extends BaseActivity implements Toolbar.OnMenuIte
 
     private Toolbar mToolbar;
     private WebView mWeb;
+    private TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_synthesis);
         initView();
+        PushAgent.getInstance(this).onAppStart();
     }
 
     @Override
@@ -37,6 +41,7 @@ public class SynthesisActivity extends BaseActivity implements Toolbar.OnMenuIte
     private void initView(){
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mWeb = (WebView) findViewById(R.id.web);
+        mTitle = (TextView) findViewById(R.id.apptitle);
         setSupportActionBar(mToolbar);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("");
@@ -80,9 +85,10 @@ public class SynthesisActivity extends BaseActivity implements Toolbar.OnMenuIte
         Entity entity = (Entity)getIntent().getSerializableExtra("ENTITY");
         if (null != entity){
 //            String url = "http://192.168.99.247/MineCraftCDN/app-composed.html";
-            Toast.makeText(this,"ID="+entity.getId(),Toast.LENGTH_LONG).show();
+//            Toast.makeText(this,"ID="+entity.getId(),Toast.LENGTH_LONG).show();
             String url = getString(R.string.interface_entity) + entity.getId();
             mWeb.loadUrl(url);
+            mTitle.setText(entity.getViewName());
         } else {
             Snackbar.make(mWeb,"参数错误，请重试！",Snackbar.LENGTH_LONG).show();
         }

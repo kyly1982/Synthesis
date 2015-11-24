@@ -57,7 +57,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:hint="输入物品名称来搜索"
                 android:imeOptions="actionSearch"
                 android:lines="1"
                 android:singleLine="true" />

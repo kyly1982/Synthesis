@@ -3,13 +3,17 @@ package com.tars.synthesis.activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
+import com.tars.synthesis.BuildConfig;
 import com.tars.synthesis.R;
 import com.tars.synthesis.utils.AutoUpgrade.AppUpdate;
 import com.tars.synthesis.utils.AutoUpgrade.AppUpdateService;
 import com.tars.synthesis.utils.AutoUpgrade.ResponseParser;
 import com.tars.synthesis.utils.AutoUpgrade.Version;
 import com.tars.synthesis.utils.AutoUpgrade.internal.SimpleJSONParser;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +23,7 @@ import java.net.URLEncoder;
 
 public class AboutActivity extends BaseActivity {
     private Toolbar mToolbar;
+    private TextView appver;
 //    private ActionBar mActionBar;
 //    private Button mButton;
     private AppUpdate mUpdateService;
@@ -29,6 +34,7 @@ public class AboutActivity extends BaseActivity {
         setContentView(R.layout.activity_about);
         mUpdateService = AppUpdateService.getAppUpdate(this);
         initView();
+        PushAgent.getInstance(this).onAppStart();
     }
 
     @Override
@@ -45,6 +51,7 @@ public class AboutActivity extends BaseActivity {
 
     private void initView(){
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        appver = (TextView) findViewById(R.id.appversion);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -60,12 +67,14 @@ public class AboutActivity extends BaseActivity {
                 checkUpgrade();
             }
         });
+        appver.setText(BuildConfig.VERSION_NAME);
     }
 
     private void checkUpgrade() {
+        MobclickAgent.onEvent(this,"update_click");
         String url = getString(R.string.interface_domain) + getString(R.string.interface_checkupgread);
         url = url + "&pushMan=" + URLEncoder.encode(getString(R.string.channel));
-        mUpdateService.checkLatestVersionQuiet(url, new MyJsonParser());
+        mUpdateService.checkLatestVersion(url, new MyJsonParser());
     }
 
     static class MyJsonParser extends SimpleJSONParser implements ResponseParser {

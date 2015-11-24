@@ -23,6 +23,7 @@ import com.tars.synthesis.bean.Entity;
 import com.tars.synthesis.bean.EntityList;
 import com.tars.synthesis.bean.Page;
 import com.tars.synthesis.utils.JsonCache;
+import com.umeng.message.PushAgent;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -54,6 +55,7 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
         mClient = new AsyncHttpClient();
         mGson = new Gson();
         mCache = new JsonCache(this);
+        PushAgent.getInstance(this).onAppStart();
     }
 
     @Override
@@ -101,7 +103,15 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
                 EntityActivity.this.finish();
             }
         });
-        mTitle.setText(mCategoryName);
+
+        switch (mType){
+            case 0:
+                mTitle.setText(mCategoryName);
+                break;
+            case 1:
+                mTitle.setText("搜索："+mEntityName);
+                break;
+        }
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mList.setLayoutManager(manager);
@@ -119,9 +129,11 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
             loadData();
             mAdapter = new EntityAdapter(this);
             mAdapter.setOnItemClickListener(this);
-            mList.setAdapter(mAdapter);
             return;
         } else {
+            if (null == mList.getAdapter()){
+                mList.setAdapter(mAdapter);
+            }
             mAdapter.setData(mEntities);
         }
     }
@@ -157,7 +169,9 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
         mClient.get(mUrl, params, new JsonHttpResponseHandler() {
             @Override
             public void onStart() {
-                parseData(null,null,getCacheData(mUrl,params));
+                if (0== mType && null != getCacheData(mUrl,params)) {
+                    parseData(null, null, getCacheData(mUrl, params));
+                }
             }
 
             @Override
@@ -182,7 +196,14 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
                     return;
                 }
                 //处理返回数据不正确
-                Snackbar.make(mList,"返回数据不正确，请稍候再试！",Snackbar.LENGTH_LONG).show();
+                switch (mType){
+                    case 0:
+                        Snackbar.make(mList,"返回数据不正确，请稍候再试！",Snackbar.LENGTH_LONG).show();
+                        break;
+                    case 1:
+                        Snackbar.make(mList,"什么也没找到，请重试！",Snackbar.LENGTH_LONG).show();
+                        break;
+                }
             }
 
             @Override
@@ -220,7 +241,13 @@ public class EntityActivity extends BaseActivity implements EntityAdapter.OnItem
     }
 
     private boolean parseSearchData(String data){
+        if (null == data || data.equals("[null]")){
+            mList.setEmptyView(R.layout.emptyview);
+            mList.showEmptyView();
+            return false;
+        }
         ArrayList<Entity> entities = mGson.fromJson(data,new TypeToken<ArrayList<Entity>>(){}.getType());
+
         if (null != entities && !entities.isEmpty()){
             this.mEntities = entities;
             return true;

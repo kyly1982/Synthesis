@@ -50,7 +50,9 @@ public class EntityAdapter extends RecyclerView.Adapter<EntityAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Entity entity = entities.get(position);
-        assert null != entity;
+        if (null == entity){
+            return;
+        }
         if (null != entity.getImgPath() && 10 < entity.getImgPath().length()) {
             mLoader.displayImage(entity.getImgPath(), holder.entityImage);
         }

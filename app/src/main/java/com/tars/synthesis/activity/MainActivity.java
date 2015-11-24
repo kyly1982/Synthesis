@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,9 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView;
 import com.tars.synthesis.R;
 import com.tars.synthesis.adapter.CategoryAdapter;
 import com.tars.synthesis.bean.Category;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengRegistrar;
 
 import java.util.ArrayList;
 
@@ -40,12 +44,16 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         initView();
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.enable();
+        PushAgent.getInstance(this).onAppStart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         showData();
+        Log.e("MA", "TOKEN=" + UmengRegistrar.getRegistrationId(this));
     }
 
     @Override
@@ -111,7 +119,7 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
         } else if (null != entityName) {
             mSearch.setText("");
             intent.putExtra("ENTIVITY", entityName);
-            intent.putExtra("TYPE",1);
+            intent.putExtra("TYPE", 1);
         }
         startActivity(intent);
     }
@@ -139,7 +147,7 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
             if (null != v.getText() && 0 < v.getText().toString().length()) {
                 showEntityList(null, v.getText().toString().trim());
             } else {
-                mSearchLayout.setError("请输入要搜索的物品名称！");
+                mSearchLayout.setError("搜索物品");
                 mSearch.setText("");
             }
         }
@@ -149,22 +157,29 @@ public class MainActivity extends BaseActivity implements CategoryAdapter.OnItem
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mSearchLayout.setHint("点击键盘上的搜索来搜索");
         if (hasFocus) {
+            mSearchLayout.setHint("点击键盘上的搜索来搜索");
             imm.showSoftInput(mSearch, InputMethodManager.SHOW_FORCED);
+            MobclickAgent.onEvent(this, "search_click");
         } else {
+            mSearchLayout.setHint("搜索物品");
             imm.hideSoftInputFromWindow(mSearch.getWindowToken(), 0);
         }
     }
 
     @Override
     public boolean onBackKeyPressed() {
-        Snackbar.make(mList, "是否退出？", Snackbar.LENGTH_LONG).setAction("退出", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.this.finish();
-            }
-        }).setActionTextColor(getResources().getColor(R.color.red)).show();
+        if (mSearch.hasFocus()) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mSearch.getWindowToken(), 0);
+        } else {
+            Snackbar.make(mList, "是否退出？", Snackbar.LENGTH_LONG).setAction("退出", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity.this.finish();
+                }
+            }).setActionTextColor(getResources().getColor(R.color.red)).show();
+        }
         return true;
     }
 }
